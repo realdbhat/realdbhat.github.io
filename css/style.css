@@ -207,13 +207,15 @@ a {
   }
 }
 #container {
+  position: relative;
+  min-height: 100%;
+}
+#container #mobile-nav {
   background: url("../img/bg.jpg") #515457;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
   display: none;
-  position: relative;
-  min-height: 100%;
 }
 #container #mobile-nav .overlay {
   height: 110px;
