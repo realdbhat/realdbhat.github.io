@@ -208,14 +208,14 @@ a {
 }
 #container {
   position: relative;
-  min-height: 100%;
-}
-#container #mobile-nav {
-  display: none;
   background: url("../img/bg.jpg") #515457;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
+  min-height: 100%;
+}
+#container #mobile-nav {
+  display: none;
 }
 #container #mobile-nav .overlay {
   height: 110px;
@@ -251,7 +251,6 @@ a {
   margin: 3px;
 }
 #container .left-col {
-  background: url("../img/bg.jpg") #515457;
   width: 300px;
   position: fixed;
   opacity: 1;
@@ -290,6 +289,7 @@ a {
 #container .mid-col {
   position: absolute;
   right: 0;
+  background-color: rgba(0,0,0,0.75);
   min-height: 100%;
   left: 300px;
   width: auto;
