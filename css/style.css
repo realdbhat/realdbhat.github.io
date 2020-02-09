@@ -208,10 +208,6 @@ a {
 }
 #container {
   position: relative;
-  background: url("../img/bg.jpg") #515457;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
   min-height: 100%;
 }
 #container #mobile-nav {
@@ -288,6 +284,10 @@ a {
 }
 #container .mid-col {
   position: absolute;
+  background: url("../img/bg.jpg") #515457;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
   right: 0;
   background-color: rgba(0,0,0,0.75);
   min-height: 100%;
