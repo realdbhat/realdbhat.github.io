@@ -209,6 +209,7 @@ a {
 #container {
   position: relative;
   min-height: 100%;
+  z-index: 99;
 }
 #container #mobile-nav {
   background: url("../img/bg.jpg") #515457;
