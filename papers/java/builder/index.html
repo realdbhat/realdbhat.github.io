@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>GOF23之建造者模式 | DBhat&#39;s blog daydayup^-^</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="我是一个无情的组装机器         ——建造者模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GOF23之建造者模式">
+<meta property="og:url" content="https://realdbhat.github.io/papers/java/builder/index.html">
+<meta property="og:site_name" content="DBhat&#39;s blog daydayup^-^">
+<meta property="og:description" content="我是一个无情的组装机器         ——建造者模式">
+<meta property="article:published_time" content="2020-02-09T08:19:16.000Z">
+<meta property="article:modified_time" content="2020-02-09T18:47:55.151Z">
+<meta property="article:author" content="DBhat">
+<meta property="article:tag" content="创建者模式">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="DBhat&#39;s blog daydayup^-^" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.ico">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: false,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img src="/img/head.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">DBhat</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">山河远阔，人间烟火，无一是你，无一不是你。</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="https://realdbhat.github.io">博客首页</a></li>
+                        
+                            <li><a href="/archives">学习记录</a></li>
+                        
+                            <li><a href="/links">友情链接</a></li>
+                        
+                            <li><a href="/about">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/realdbhat" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/%E5%88%9B%E5%BB%BA%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">创建者模式</a>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">温故而知新，为了成为更好的自己，coding.</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <div class="body-wrap"><article id="paper-建造者模式" class="article article-type-paper" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/papers/java/builder/" class="article-date">
+      <time datetime="2020-02-09T08:19:16.000Z" itemprop="datePublished">2020-02-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      GOF23之建造者模式
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/java/">java</a><a class="article-category-link" href="/categories/java/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%9B%E5%BB%BA%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">创建者模式</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>我是一个无情的组装机器         ——建造者模式</p>
+<a id="more"></a>
+
+<p>适用场景:<br>Builder模式组装符合业务需求的产品，可以通过不同的顺序组装。<br>这些产品具有相同的结构，但是每个结构模块可以是具备差异性的同类型产品。<br>Builder模式不适合创建差异性很大的产品类，不具备共性没必要合成一个庞大的类，完全可以抽成单独的类。</p>
+<p>建造者模式和抽象工厂模式的区别:<br>建造者模式主要是对相似产品组装的可重用性优化，解耦。该模式关注的是产品的组装。<br>抽象工厂模式是产品族的概念 ==&gt; 你要某个产品族的某个产品，先生成该产品族的总工厂，再通过总工厂生成对应等级(种类)产品工厂，最终生产该产品。该模式关注的是不同产品族不同产品等级的生产。</p>
+<p>建造者模式是将具体产品的组装抽象到高层，避免重复构建相同的对象，使消费者不必知道具体产品的建造细节，降低消费者和产品之间的耦合性，且保证了OCP原则。</p>
+<h4 id="1-标准模式"><a href="#1-标准模式" class="headerlink" title="1.标准模式"></a>1.标准模式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//产品类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GameScenes</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Boss boss;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 副本宝藏</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Treasure treasure;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GameScenes</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Boss <span class="title">getBoss</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> boss;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBoss</span><span class="params">(Boss boss)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.boss = boss;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Treasure <span class="title">getTreasure</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> treasure;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTreasure</span><span class="params">(Treasure treasure)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.treasure = treasure;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Boss : "</span> + <span class="keyword">this</span>.boss.getClass().getSimpleName()</span><br><span class="line">                + <span class="string">", 击杀奖励 : "</span> + <span class="keyword">this</span>.treasure.getClass().getSimpleName() + <span class="string">"."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Build类(接口 || 抽象类)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Build</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">buildBoss</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">buildTreasure</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">GameScenes <span class="title">build</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Director类</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 指挥者</span></span><br><span class="line"><span class="comment"> * 统一构建所有具体的GameScenes入口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GameScenesDirector</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Build build;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GameScenesDirector</span><span class="params">(Build build)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.build = build;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GameScenes <span class="title">construct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        build.buildBoss();</span><br><span class="line">        build.buildTreasure();</span><br><span class="line">        <span class="keyword">return</span> build.build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//具体的Build类</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 峡谷</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Gorge</span> <span class="keyword">implements</span> <span class="title">Build</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> GameScenes gameScenes = <span class="keyword">new</span> GameScenes();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildBoss</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//Boss是牛头人</span></span><br><span class="line">        <span class="keyword">this</span>.gameScenes.setBoss(<span class="keyword">new</span> Tauren());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildTreasure</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//宝藏是牛角</span></span><br><span class="line">        <span class="keyword">this</span>.gameScenes.setTreasure(<span class="keyword">new</span> Horns());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GameScenes <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.gameScenes;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 龙穴</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DragonCave</span> <span class="keyword">implements</span> <span class="title">Build</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> GameScenes gameScenes = <span class="keyword">new</span> GameScenes();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildBoss</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//boss是条龙</span></span><br><span class="line">        <span class="keyword">this</span>.gameScenes.setBoss(<span class="keyword">new</span> Dragon());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildTreasure</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//宝藏是龙鳞</span></span><br><span class="line">        <span class="keyword">this</span>.gameScenes.setTreasure(<span class="keyword">new</span> DragonScale());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GameScenes <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.gameScenes;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//消费者</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> GameScenes currentScene;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GameScenes <span class="title">getCurrentScene</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> currentScene;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">gorgeChallenge</span><span class="params">(Gorge gorge)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"大峡谷冒险:"</span>);</span><br><span class="line">        GameScenesDirector director = <span class="keyword">new</span> GameScenesDirector(gorge);</span><br><span class="line">        <span class="keyword">this</span>.currentScene = director.construct();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dragonCaveChallenge</span><span class="params">(DragonCave dragonCave)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"龙穴挑战:"</span>);</span><br><span class="line">        GameScenesDirector director = <span class="keyword">new</span> GameScenesDirector(dragonCave);</span><br><span class="line">        <span class="keyword">this</span>.currentScene = director.construct();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Consumer consumer = <span class="keyword">new</span> Consumer();</span><br><span class="line">        consumer.dragonCaveChallenge(<span class="keyword">new</span> DragonCave());</span><br><span class="line">        System.out.println(consumer.getCurrentScene());</span><br><span class="line"></span><br><span class="line">        consumer.gorgeChallenge(<span class="keyword">new</span> Gorge());</span><br><span class="line">        System.out.println(consumer.getCurrentScene());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//运行结果</span></span><br><span class="line">龙穴挑战:</span><br><span class="line">Boss : Dragon, 击杀奖励 : DragonScale.</span><br><span class="line">大峡谷冒险:</span><br><span class="line">Boss : Tauren, 击杀奖励 : Horns.</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-改造模式"><a href="#2-改造模式" class="headerlink" title="2.改造模式"></a>2.改造模式</h4><p>建造者模式遵守OCP原则，可是从开发效率来看仍然可以优化，虽然优化需要破坏OCP原则，但是能提高不少开发效率，简化项目结构，实际生产更多的使用改造后的建造者模式。</p>
+<p>要是具体产品种类过多，可以考虑把所有的产品构建抽到一个单独的类中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//产品类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GameScenes</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Boss boss;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 副本宝藏</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Treasure treasure;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">GameScenes</span><span class="params">(Builder builder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.boss = builder.boss;</span><br><span class="line">        <span class="keyword">this</span>.treasure = builder.treasure;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Builder <span class="title">builder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Builder();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Boss : "</span> + <span class="keyword">this</span>.boss.getClass().getSimpleName()</span><br><span class="line">                + <span class="string">", 击杀奖励 : "</span> + <span class="keyword">this</span>.treasure.getClass().getSimpleName() + <span class="string">"."</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> Boss boss;</span><br><span class="line">        <span class="keyword">private</span> Treasure treasure;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">boss</span><span class="params">(Boss boss)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.boss = boss;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">treasure</span><span class="params">(Treasure treasure)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.treasure = treasure;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> GameScenes <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> GameScenes(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> GameScenes <span class="title">Gorge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> GameScenes.builder()</span><br><span class="line">                .boss(<span class="keyword">new</span> Tauren())</span><br><span class="line">                .treasure(<span class="keyword">new</span> Horns())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> GameScenes <span class="title">DragonCave</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> GameScenes.builder()</span><br><span class="line">                .boss(<span class="keyword">new</span> Dragon())</span><br><span class="line">                .treasure(<span class="keyword">new</span> DragonScale())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//消费方</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> GameScenes currentScene;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GameScenes <span class="title">getCurrentScene</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> currentScene;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">gorgeChallenge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"大峡谷冒险:"</span>);</span><br><span class="line">        <span class="keyword">this</span>.currentScene = GameScenes.Gorge();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dragonCaveChallenge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"龙穴挑战:"</span>);</span><br><span class="line">        <span class="keyword">this</span>.currentScene = GameScenes.DragonCave();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Consumer consumer = <span class="keyword">new</span> Consumer();</span><br><span class="line">        consumer.gorgeChallenge();</span><br><span class="line">        System.out.println(consumer.getCurrentScene());</span><br><span class="line"></span><br><span class="line">        consumer.dragonCaveChallenge();</span><br><span class="line">        System.out.println(consumer.getCurrentScene());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用结果</span></span><br><span class="line">大峡谷冒险:</span><br><span class="line">Boss : Tauren, 击杀奖励 : Horns.</span><br><span class="line">龙穴挑战:</span><br><span class="line">Boss : Dragon, 击杀奖励 : DragonScale.</span><br></pre></td></tr></table></figure>
+
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>纯属好玩</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg a").attr("href","/img/"+dataid+"img.jpg");
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/papers/java/builder/">GOF23之建造者模式</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 DBhat 的个人博客">DBhat</a></p>
+        <p><span>发布时间:</span>2020年02月09日 - 16时19分</p>
+        <p><span>最后更新:</span>2020年02月10日 - 02时47分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/papers/java/builder/" title="GOF23之建造者模式">https://realdbhat.github.io/papers/java/builder/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://realdbhat.github.io/papers/java/builder/　　作者: DBhat" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/papers/java/factory/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          GOF23之工厂模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/papers/java/singleton/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">GOF23之单例模式</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-标准模式"><span class="toc-number">1.</span> <span class="toc-text">1.标准模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-改造模式"><span class="toc-number">2.</span> <span class="toc-text">2.改造模式</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox" style="text-align: center;">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<!--
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+	-->
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/papers/java/factory/" title="上一篇: GOF23之工厂模式">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/papers/java/singleton/" title="下一篇: GOF23之单例模式">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/papers/java/notes/">notes</a></li><li class="post-list-item"><a class="post-list-link" href="/papers/java/factory/">GOF23之工厂模式</a></li><li class="post-list-item"><a class="post-list-link" href="/papers/java/builder/">GOF23之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/papers/java/singleton/">GOF23之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/papers/java/prototype/">GOF23之原型模式</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                Copyright &copy; 2020 DBhat
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 1001;
+            var backgroundimg = "url(/background/bg-" + backgroundnum +".jpg)";
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover", "background-repeat": "no-repeat", "background-position": "center", "background-attachment": "fixed"});
+            $("body").css({"background-image": backgroundimg,"background-size": "cover", "background-repeat": "no-repeat", "background-position": "center", "background-attachment": "fixed"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
