@@ -207,11 +207,13 @@ a {
   }
 }
 #container {
+  background: url("../img/bg.jpg") #515457;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  display: none;
   position: relative;
   min-height: 100%;
-}
-#container #mobile-nav {
-  display: none;
 }
 #container #mobile-nav .overlay {
   height: 110px;
@@ -284,10 +286,6 @@ a {
 }
 #container .mid-col {
   position: absolute;
-  background: url("../img/bg.jpg") #515457;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
   right: 0;
   background-color: rgba(0,0,0,0.75);
   min-height: 100%;
