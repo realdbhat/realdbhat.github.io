@@ -209,7 +209,6 @@ a {
 #container {
   position: relative;
   min-height: 100%;
-  z-index: 99;
 }
 #container #mobile-nav {
   background: url("../img/bg.jpg") #515457;
@@ -254,7 +253,7 @@ a {
 #container .left-col {
   width: 300px;
   position: fixed;
-  background-color: rgba(0,255,0,0);
+  background-color: rgba(0,0,0,0);
   -webkit-transition: all 0.2s ease-in;
   -moz-transition: all 0.2s ease-in;
   -ms-transition: all 0.2s ease-in;
@@ -264,7 +263,7 @@ a {
 #container .left-col .overlay {
   width: 100%;
   min-height: 100%;
-  background-color: rgba(255,0,0,0);
+  background-color: rgba(0,0,0,0);
   position: absolute;
   z-index: -1;
 }
@@ -289,7 +288,7 @@ a {
 #container .mid-col {
   position: absolute;
   right: 0;
-  background-color: rgba(0,0,255,0.3);
+  background-color: rgba(0,0,0,0.3);
   min-height: 100%;
   left: 300px;
   width: auto;
