@@ -1,0 +1,265 @@
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<div style="text-align: center;">
+	<form>
+	    <input type="text" class="st-default-search-input search" id="local-search-input" placeholder=" Search...">
+	</form>
+	<div id="local-search-result" class="local-search-result-cls"></div>
+<div>
+
+<style type="text/css">
+	.local-search {
+	  position: relative;
+	  text-align: left;
+	  margin-bottom: 10px;
+	}
+
+	.local-search-input-cls {
+	  width: 200px;
+	  margin: 10px 0;
+	  padding: 8px 12px;
+	  border-radius: 4px;
+	  border: 1px solid #CCC;
+	  color: #666;
+	  font-size: 14px;
+	}
+
+	#local-search-close {
+	  content: 'x';
+	  position: absolute;
+	  right: 10px;
+	  top: 10px;
+	  background: #fff;
+	  color: #888;
+	  border-radius: 100%;
+	  line-height: 20px;
+	  text-align: center;
+	  font-size: 16px;
+	  font-family: consolas;
+	  border: 1px solid #CCC;
+	  display: block;
+	  width: 20px;
+	  height: 20px;
+	  cursor: pointer;
+	  font-style: normal;
+	  font-weight: normal;
+	  transform: rotateZ(0);
+	  transition: all 0.3s;
+	  &:hover {
+	    border-color: #666;
+	    color: #222;
+	    transform: rotateZ(180deg);
+	    transition: all 0.3s;
+	  }
+	}
+
+	.local-search-result-cls {
+	  position: absolute;
+	  z-index: 99;
+	  width: 400px;
+	  top: 50px;
+	  right: 0;
+	  .local-search-empty {
+	    color: #888;
+	    line-height: 44px;
+	    text-align: center;
+	    display: block;
+	    font-size: 16px;
+	    font-weight: normal;
+	  }
+	  ul {
+	    width: 360px;
+	    max-height: 450px;
+	    min-height: 0;
+	    height: auto;
+	    overflow-y: auto;
+	    border: 1px solid #CCC;
+	    padding: 10px 20px;
+	    background: #FFF;
+	    box-shadow: 1px 2px 4px #CCC;
+	    li {
+	      text-align: left;
+	      border-bottom: 1px solid #CCC;
+	      padding-bottom: 20px;
+	      margin-bottom: 20px;
+	      line-height: 30px;
+	      font-weight: normal;
+	      &:last-child {
+	        border-bottom: none;
+	        margin-bottom: 0;
+	      }
+	      a {
+	        margin-top: 20px;
+	        font-size: 16px;
+	      }
+	      p {
+	        margin-top: 10px;
+	        font-size: 14px;
+	        max-height: 124px;
+	        overflow: hidden;
+	      }
+	      em.search-keyword {
+	        color: #e58c7c;
+	      }
+	    }
+	  }
+	}
+
+	.local-search-plugin {
+	  .local-search-input-cls {
+	    opacity: 0.6;
+	    width: 160px;
+	    transition: all 0.3s;
+	    &:hover {
+	      opacity: 1;
+	      width: 200px;
+	      transition: all 0.3s;
+	    }
+	  }
+	  .icon {
+	    position: relative;
+	    left: -30px;
+	    color: #999;
+	    cursor: pointer;
+	  }
+}
+</style>
+
+<script type="text/javascript">
+	// A local search script with the help of [hexo-generator-search](https://github.com/PaicHyperionDev/hexo-generator-search)
+	// Copyright (C) 2017 
+	// Liam Huang <http://github.com/Liam0205>
+	// This library is free software; you can redistribute it and/or modify
+	// it under the terms of the GNU Lesser General Public License as
+	// published by the Free Software Foundation; either version 2.1 of the
+	// License, or (at your option) any later version.
+	// 
+	// This library is distributed in the hope that it will be useful, but
+	// WITHOUT ANY WARRANTY; without even the implied warranty of
+	// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	// Lesser General Public License for more details.
+	// 
+	// You should have received a copy of the GNU Lesser General Public
+	// License along with this library; if not, write to the Free Software
+	// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+	// 02110-1301 USA
+	// 
+
+	var searchFunc = function (path, search_id, content_id) {
+	  // 0x00. environment initialization
+	  'use strict';
+	  var BTN = "<i id='local-search-close'>×</i>";
+	  var $input = document.getElementById(search_id);
+	  var $resultContent = document.getElementById(content_id);
+	  $resultContent.innerHTML = BTN + "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+	  $.ajax({
+	    // 0x01. load xml file
+	    url: path,
+	    dataType: "xml",
+	    success: function (xmlResponse) {
+	      // 0x02. parse xml file
+	      var datas = $("entry", xmlResponse).map(function () {
+	        return {
+	          title: $("title", this).text(),
+	          content: $("content", this).text(),
+	          url: $("url", this).text()
+	        };
+	      }).get();
+	      $resultContent.innerHTML = "";
+
+	      $input.addEventListener('input', function () {
+	        // 0x03. parse query to keywords list
+	        var str = '<ul class=\"search-result-list\">';
+	        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+	        $resultContent.innerHTML = "";
+	        if (this.value.trim().length <= 0) {
+	          return;
+	        }
+	        // 0x04. perform local searching
+	        datas.forEach(function (data) {
+	          var isMatch = true;
+	          var content_index = [];
+	          if (!data.title || data.title.trim() === '') {
+	            data.title = "Untitled";
+	          }
+	          var orig_data_title = data.title.trim();
+	          var data_title = orig_data_title.toLowerCase();
+	          var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+	          var data_content = orig_data_content.toLowerCase();
+	          var data_url = data.url;
+	          var index_title = -1;
+	          var index_content = -1;
+	          var first_occur = -1;
+	          // only match artiles with not empty contents
+	          if (data_content !== '') {
+	            keywords.forEach(function (keyword, i) {
+	              index_title = data_title.indexOf(keyword);
+	              index_content = data_content.indexOf(keyword);
+
+	              if (index_title < 0 && index_content < 0) {
+	                isMatch = false;
+	              } else {
+	                if (index_content < 0) {
+	                  index_content = 0;
+	                }
+	                if (i == 0) {
+	                  first_occur = index_content;
+	                }
+	                // content_index.push({index_content:index_content, keyword_len:keyword_len});
+	              }
+	            });
+	          } else {
+	            isMatch = false;
+	          }
+	          // 0x05. show search results
+	          if (isMatch) {
+	            str += "<li><a href='" + data_url + "' class='search-result-title' target='_blank'>" + orig_data_title + "</a>";
+	            var content = orig_data_content;
+	            if (first_occur >= 0) {
+	              // cut out 100 characters
+	              var start = first_occur - 20;
+	              var end = first_occur + 80;
+
+	              if (start < 0) {
+	                start = 0;
+	              }
+
+	              if (start == 0) {
+	                end = 100;
+	              }
+
+	              if (end > content.length) {
+	                end = content.length;
+	              }
+
+	              var match_content = content.substr(start, end);
+
+	              // highlight all keywords
+	              keywords.forEach(function (keyword) {
+	                var regS = new RegExp(keyword, "gi");
+	                match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+	              });
+
+	              str += "<p class=\"search-result\">" + match_content + "...</p>"
+	            }
+	            str += "</li>";
+	          }
+	        });
+	        str += "</ul>";
+	        if (str.indexOf('<li>') === -1) {
+	          return $resultContent.innerHTML = BTN + "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+	        }
+	        $resultContent.innerHTML = BTN + str;
+	      });
+	    }
+	  });
+	  $(document).on('click', '#local-search-close', function() {
+	    $('#local-search-input').val('');
+	    $('#local-search-result').html('');
+	  });
+	}
+
+	var getSearchFile = function(){
+	    var path = "/search.xml";
+	    searchFunc(path, 'local-search-input', 'local-search-result');
+	}
+</script>
