@@ -5153,6 +5153,7 @@ pre .link_url {
   z-index: 99;
   width: 400px;
   top: 50px;
+  left: 500px;
 }
 .local-search-result-cls .local-search-empty {
   color: #888;
