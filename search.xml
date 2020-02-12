@@ -3,7 +3,7 @@
   <entry>
     <title>适配器模式</title>
     <url>/papers/java/adapter/</url>
-    <content><![CDATA[<p>不管你要什么输出，我就能通过输入转换出来        ——适配器模式</p>
+    <content><![CDATA[<p>不管你要什么输出，我都能通过输入转换出来        ——适配器模式</p>
 <a id="more"></a>
 
 <p>适配器模式主要分为3种:类适配器，对象适配器，接口适配器。</p>
