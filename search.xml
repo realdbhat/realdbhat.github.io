@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Blog搭建以及问题记录</title>
+    <url>/papers/java/blog/</url>
+    <content><![CDATA[<p>疫情在家，想着刚好搭个blog做学习记录方便以后回顾，刚好通过Github的Github pages搭一个，省时省力省钱，真香。</p>
+<a id="more"></a>
+
+<p>这里有一份paper，记录的蛮详细的，重复内容就不记录了。<a href="https://cuiqingcai.com/7625.html" target="_blank" rel="noopener">传送门</a></p>
+<h4 id="重要目录结构说明："><a href="#重要目录结构说明：" class="headerlink" title="重要目录结构说明："></a>重要目录结构说明：</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">主项目目录</span><br><span class="line">_config.yml  --根配置文件</span><br><span class="line">scaffolds    --模版目录</span><br><span class="line">source       --具体paper目录</span><br><span class="line">theme        --主题目录(修改样式什么都在这里)</span><br><span class="line"></span><br><span class="line">主题目录</span><br><span class="line">_config.yml  --主题配置文件</span><br><span class="line">layout       --markdown文件渲染引擎目录(可以自定义渲染逻辑)</span><br><span class="line">source       --资源文件夹(css,js,img等)</span><br></pre></td></tr></table></figure>
+
+<h4 id="下面主要记录一下我遇到的一些问题："><a href="#下面主要记录一下我遇到的一些问题：" class="headerlink" title="下面主要记录一下我遇到的一些问题："></a>下面主要记录一下我遇到的一些问题：</h4><p>怎么让文章置顶？</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装置顶插件</span></span><br><span class="line">$ npm uninstall hexo-generator-index --save</span><br><span class="line">$ npm install hexo-generator-index-pin-top --save</span><br><span class="line"></span><br><span class="line"><span class="comment">#在需要置顶的paper头部添加top:true就行</span></span><br></pre></td></tr></table></figure>
+
+<p>Hexo部署报错Spawn failed问题：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在上面的paper中也有提到配置Github的SSH登陆，我这里就是没有配置SSH登陆遇到的问题。</span><br><span class="line">具体解决方案：</span><br><span class="line">1.配置SSH登陆，具体自行谷歌。</span><br><span class="line">2.hexo博客根配置文件修改：</span><br><span class="line">repository: https:&#x2F;&#x2F;github.com&#x2F;yourname&#x2F;yourname.github.io.git</span><br><span class="line">修改为：</span><br><span class="line">repository: git@github.com:yourname&#x2F;yourname.github.io.git</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>issues</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>适配器模式</title>
     <url>/papers/java/adapter/</url>
     <content><![CDATA[<p>不管你要什么输出，我都能通过输入转换出来        ——适配器模式</p>
